@@ -1,17 +1,15 @@
 # AutismAtlasBrainFMRI
-The project required the following requirements:
 
-python 3.7 or higher
-mne 
-pandas
-stats
-sklearn
-nilearn
-numpy
-seaborn
-matplotlib
- 
-s
+## Required dependencies for this project include
+- python 3.7 or higher
+- mne
+- pandas
+- stats
+- sklearn
+- nilearn
+- numpy
+- seaborn
+- matplotlib
 
 
 1- To download data from ABIDE dataset please use the download_from_abide.py script. Please follow the guidelines for downloading specific derivatives.
