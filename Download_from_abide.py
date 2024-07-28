@@ -1,3 +1,6 @@
+import os
+import urllib.request as request
+
 # download_abide_preproc.py
 #
 # Author: Daniel Clark, 2015
@@ -35,9 +38,9 @@ def collect_and_download(derivative, pipeline, strategy, out_dir, less_than, gre
         upper age (years) threshold for participants of interest
     greater_than : float
         lower age (years) threshold for participants of interest
-    site : string
+    site : string or None
         acquisition site of interest
-    sex : string
+    sex : string or None
         'M' or 'F' to indicate whether to download male or female data
     diagnosis : string
         'asd', 'tdc', or 'both' corresponding to the diagnosis of the
@@ -59,13 +62,9 @@ def collect_and_download(derivative, pipeline, strategy, out_dir, less_than, gre
     :return:
     """
 
-    # Import packages
-    import os
-    import urllib.request as request
-
     # Init variables
     mean_fd_thresh = 0.2
-    s3_prefix = 'https://s3.amazonaws.com/fcp-indi/data/Projects/'\
+    s3_prefix = 'https://s3.amazonaws.com/fcp-indi/data/Projects/' \
                 'ABIDE_Initiative'
     s3_pheno_path = '/'.join([s3_prefix, 'Phenotypic_V1_0b_preprocessed1.csv'])
 
@@ -133,12 +132,12 @@ def collect_and_download(derivative, pipeline, strategy, out_dir, less_than, gre
             continue
         # Test phenotypic criteria (three if's looks cleaner than one long if)
         # Test sex
-        if (sex == 'M' and row_sex != '1') or (sex == 'F' and row_sex != '2'):
+        if (str(sex) == 'M' and row_sex != '1') or (str(sex) == 'F' and row_sex != '2'):
             continue
         if (diagnosis == 'asd' and row_dx != '1') or (diagnosis == 'tdc' and row_dx != '2'):
             continue
         # Test site
-        if site is not None and site.lower() != row_site.lower():
+        if site is not None and str(site).lower() != row_site.lower():
             continue
         # Test age range
         if greater_than < row_age < less_than:
@@ -161,7 +160,7 @@ def collect_and_download(derivative, pipeline, strategy, out_dir, less_than, gre
             if not os.path.exists(download_file):
                 print('Retrieving: {0}'.format(download_file))
                 request.urlretrieve(s3_path, download_file)
-                print('{0:3f}% percent complete'.format(100*(float(path_idx+1)/total_num_files)))
+                print('{0:3f}% percent complete'.format(100 * (float(path_idx + 1) / total_num_files)))
             else:
                 print('File {0} already exists, skipping...'.format(download_file))
         except Exception as exc:
@@ -170,66 +169,82 @@ def collect_and_download(derivative, pipeline, strategy, out_dir, less_than, gre
     # Print all done
     print('Done!')
 
-derivative = 'func_preproc'
-pipline = 'cpac'
-strategy = 'filt_global'
-out_dir = 'data/'
 
-less_than = 200
-greater_than = -1
-site = None
-sex = None
-diagnosis = 'both'
+if __name__ == '__main__':
 
-collect_and_download(derivative,pipline,strategy,out_dir,less_than,greater_than,site,sex,diagnosis)
+    # web site : https://github.com/preprocessed-connectomes-project/abide
 
+    """
+    The download_abide_preproc.py script allows any user to download outputs from the ABIDE preprocessed data release. The user specifies the desired derivative, pipeline, and noise removal strategy of interest, and the script finds the data on FCP-INDI's S3 bucket, hosted by Amazon Web Services, and downloads the data to a local directory. The script also allows for phenotypic specifications for targeting only the particpants whose information meets the desired criteria; these specifications include: diagnosis (either ASD, TDC, or both), an age range (e.g. particpants between 2 and 30 years of age), sex (male or female), and site (location where the images where acquired from). * Note the script only downloads images where the functional image's mean framewise displacement is less than 0.2.
 
-# web site : https://github.com/preprocessed-connectomes-project/abide
+    At a minimum, the script needs a specific derivative, pipeline, and strategy to search for.
+    Acceptable derivatives include:
+    - alff (Amplitude of low frequency fluctuations)
+    - degree_binarize (Degree centrality with binarized weighting)
+    - degree_weighted (Degree centrality with correlation weighting)
+    - eigenvector_binarize (Eigenvector centrality with binarized weighting)
+    - eigenvector_weighted (Eigenvector centrality with correlation weighting)
+    - falff (Fractional ALFF)
+    - func_mask (Functional data mask)
+    - func_mean (Mean preprocessed functional image)
+    - func_preproc (Preprocessed functional image)
+    - lfcd (Local functional connectivity density)
+    - reho (Regional homogeneity)
+    - rois_aal (Timeseries extracted from the Automated Anatomical Labeling atlas)
+    - rois_cc200 (" " from Cameron Craddock's 200 ROI parcellation atlas)
+    - rois_cc400 (" " " 400 ROI parcellation atlas)
+    - rois_dosenbach160 (" " from the Dosenbach160 atlas)
+    - rois_ez (" " from the Eickhoff-Zilles atlas)
+    - rois_ho (" " from the Harvard-Oxford atlas)
+    - rois_tt (" " from the Talaraich and Tournoux atlas)
+    - vmhc (Voxel-mirrored homotopic connectivity)
 
-"""
-The download_abide_preproc.py script allows any user to download outputs from the ABIDE preprocessed data release. The user specifies the desired derivative, pipeline, and noise removal strategy of interest, and the script finds the data on FCP-INDI's S3 bucket, hosted by Amazon Web Services, and downloads the data to a local directory. The script also allows for phenotypic specifications for targeting only the particpants whose information meets the desired criteria; these specifications include: diagnosis (either ASD, TDC, or both), an age range (e.g. particpants between 2 and 30 years of age), sex (male or female), and site (location where the images where acquired from). * Note the script only downloads images where the functional image's mean framewise displacement is less than 0.2.
+    Acceptable pipelines include:
+    - ccs
+    - cpac
+    - dparsf
+    - niak
 
-At a minimum, the script needs a specific derivative, pipeline, and strategy to search for.
-Acceptable derivatives include:
-- alff (Amplitude of low frequency fluctuations)
-- degree_binarize (Degree centrality with binarized weighting)
-- degree_weighted (Degree centrality with correlation weighting)
-- eigenvector_binarize (Eigenvector centrality with binarized weighting)
-- eigenvector_weighted (Eigenvector centrality with correlation weighting)
-- falff (Fractional ALFF)
-- func_mask (Functional data mask)
-- func_mean (Mean preprocessed functional image)
-- func_preproc (Preprocessed functional image)
-- lfcd (Local functional connectivity density)
-- reho (Regional homogeneity)
-- rois_aal (Timeseries extracted from the Automated Anatomical Labeling atlas)
-- rois_cc200 (" " from Cameron Craddock's 200 ROI parcellation atlas)
-- rois_cc400 (" " " 400 ROI parcellation atlas)
-- rois_dosenbach160 (" " from the Dosenbach160 atlas)
-- rois_ez (" " from the Eickhoff-Zilles atlas)
-- rois_ho (" " from the Harvard-Oxford atlas)
-- rois_tt (" " from the Talaraich and Tournoux atlas)
-- vmhc (Voxel-mirrored homotopic connectivity)
+    Acceptable strategies include:
+    - filt_global (band-pass filtering and global signal regression)
+    - filt_noglobal (band-pass filtering only)
+    - nofilt_global (global signal regression only)
+    - nofilt_noglobal (neither)
 
-Acceptable pipelines include:
-- ccs
-- cpac
-- dparsf
-- niak
+    For example, to download all particpants across all sites' ReHo images processed using C-PAC, without any frequency filtering or global signal regression:
+        python download_abide_preproc.py -d reho -p cpac -s nofilt_noglobal -o /path/to/local/download/dir
 
-Acceptable strategies include:
-- filt_global (band-pass filtering and global signal regression)
-- filt_noglobal (band-pass filtering only)
-- nofilt_global (global signal regression only)
-- nofilt_noglobal (neither)
+    The script will then search for and download the data to the local directory specified with the -o flag.
 
-For example, to download all particpants across all sites' ReHo images processed using C-PAC, without any frequency filtering or global signal regression:
-    python download_abide_preproc.py -d reho -p cpac -s nofilt_noglobal -o /path/to/local/download/dir
+    Participants can also be selected based on phenotypic information. For example, to download the same outputs from the previous example, but using only male ASD participants scanned from Caltech between the ages of 2 and 30 years:
+        python download_abide_preproc.py -a -d reho -p cpac -s nofilt_noglobal -o /path/to/local/download/dir -gt 2 -lt 30 -x M -t Caltech
 
-The script will then search for and download the data to the local directory specified with the -o flag.
+    For more information on the ABIDE preprocessed initiative, please check out http://preprocessed-connectomes-project.github.io/abide
+    """
 
-Participants can also be selected based on phenotypic information. For example, to download the same outputs from the previous example, but using only male ASD participants scanned from Caltech between the ages of 2 and 30 years:
-    python download_abide_preproc.py -a -d reho -p cpac -s nofilt_noglobal -o /path/to/local/download/dir -gt 2 -lt 30 -x M -t Caltech
+    # means processed data (not raw data)
+    derivative = 'func_preproc'
+    pipeline = 'cpac'
+    strategy = 'filt_global'
 
-For more information on the ABIDE preprocessed initiative, please check out http://preprocessed-connectomes-project.github.io/abide
-"""
+    # Get the current working directory
+    current_directory = os.getcwd()
+
+    # Define the new directory path
+    out_dir = os.path.join(current_directory, 'dat')
+
+    # Because we want to receive all the datasets without age restriction, we set the lower bound to -1 and
+    # the upper bound to 200.
+    less_than = 200
+    greater_than = -1
+
+    site = None
+    sex = None
+
+    # means Autism and control
+    diagnosis = 'both'
+
+    collect_and_download(derivative=derivative, pipeline=pipeline, strategy=strategy, out_dir=out_dir,
+                         less_than=less_than, greater_than=greater_than, site=site, sex=sex, diagnosis=diagnosis)
+
+    print('Downloaded datasets have been stored in the ' + str(out_dir) + ' directory.')
