@@ -16,7 +16,9 @@
 - pdfkit
 
 
-1- To download data from ABIDE dataset please use the download_from_abide.py script. Please follow the guidelines for downloading specific derivatives.
+## How to download processed datasets from ABIDE?
+To download all processed datasets from ABIDE, you can run the following command:
+`python <a href='BrainAtlasEffect_in_AutismClassification/blob/main/Download_from_abide.py'>Download_from_abide.py</a>` 
 
 2- To extract feature using nilearn package use the Atlas_Extractor.py. Atlas must be saved in the  Nilearn subfolder of AtlasExtracted directory.
 
