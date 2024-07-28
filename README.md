@@ -10,6 +10,10 @@
 - numpy
 - seaborn
 - matplotlib
+- xlrd
+- kaleido 0.1.0.post1
+- plotly
+- pdfkit
 
 
 1- To download data from ABIDE dataset please use the download_from_abide.py script. Please follow the guidelines for downloading specific derivatives.
