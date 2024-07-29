@@ -22,25 +22,25 @@ python <a href="Download_from_abide.py">Download_from_abide.py</a>
 
 ### Explanation of Arguments:
 1. derivative:</br>
-<b>Value:</b> 'func_preproc' to download preprocessed functional MRI data. This ensures that you are obtaining processed (not raw) data for functional analysis.
+<b>Value:</b> `func_preproc` to download preprocessed functional MRI data. This ensures that you are obtaining processed (not raw) data for functional analysis.
 
 2. pipeline:</br>
-<b>Value:</b> 'cpac', indicating the use of the Configurable Pipeline for the Analysis of Connectomes. This pipeline provides standardized preprocessing of the data.
+<b>Value:</b> `cpac`, indicating the use of the Configurable Pipeline for the Analysis of Connectomes. This pipeline provides standardized preprocessing of the data.
 
 3. strategy:</br>
-<b>Value:</b> 'filt_global', meaning that the preprocessing includes global signal regression and temporal filtering. This strategy helps in cleaning the data by removing global noise.
+<b>Value:</b> `filt_global`, meaning that the preprocessing includes global signal regression and temporal filtering. This strategy helps in cleaning the data by removing global noise.
 
 4. less_than and greater_than:</br>
-<b>Value:</b> 200 and -1, respectively, to include all datasets without imposing any age restrictions. This setting ensures that the full range of available data is downloaded.
+<b>Value:</b> `200` and `-1`, respectively, to include all datasets without imposing any age restrictions. This setting ensures that the full range of available data is downloaded.
 
 5. site:</br>
-<b>Value:</b> None, which means the data will be downloaded from all available collection sites without filtering for a specific one.
+<b>Value:</b> `None`, which means the data will be downloaded from all available collection sites without filtering for a specific one.
 
 6. sex:</br>
-<b>Value:</b> None, indicating that the data will include participants of all sexes without any filtering.
+<b>Value:</b> `None`, indicating that the data will include participants of all sexes without any filtering.
 
 7. diagnosis:</br>
-<b>Value:</b> 'both', meaning that the dataset will include data from both individuals diagnosed with Autism and control participants. This provides a complete dataset for comparative analysis.
+<b>Value:</b> `both`, meaning that the dataset will include data from both individuals diagnosed with Autism and control participants. This provides a complete dataset for comparative analysis.
 
 
 
