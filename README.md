@@ -42,7 +42,7 @@ python <a href="Download_from_abide.py">Download_from_abide.py</a>
 7. diagnosis:</br>
 <b>Value:</b> `both`, meaning that the dataset will include data from both individuals diagnosed with Autism and control participants. This provides a complete dataset for comparative analysis.
 
-</br></br>
+</br>
 <b>Total number of samples:</b> 884</br>
 <b>Total size of samples:</b> 100 GB (compressed)
 
