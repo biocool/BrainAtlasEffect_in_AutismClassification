@@ -18,7 +18,9 @@
 
 ## How to download processed datasets from ABIDE?
 To download all processed datasets from ABIDE, you can run the following command:</br>
-```python <a href="Download_from_abide.py">Download_from_abide.py</a>```
+python <a href="Download_from_abide.py">Download_from_abide.py</a>
+
+
 
 2- To extract feature using nilearn package use the Atlas_Extractor.py. Atlas must be saved in the  Nilearn subfolder of AtlasExtracted directory.
 
