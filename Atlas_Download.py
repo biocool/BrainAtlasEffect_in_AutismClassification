@@ -35,6 +35,8 @@ if __name__ == '__main__':
         datasets.fetch_atlas_harvard_oxford('cort-prob-2mm', data_dir=atlas_dir)
     dict_datasets['harvard_oxford_sub-prob-2mm'] = \
         datasets.fetch_atlas_harvard_oxford('sub-prob-2mm', data_dir=atlas_dir)
+    dict_datasets['harvard_oxford_sub-prob-1mm'] = \
+        datasets.fetch_atlas_harvard_oxford('sub-prob-1mm', data_dir=atlas_dir)
 
     # Multi Subject Dictionary Learning Atlas
     dict_datasets['msdl'] = datasets.fetch_atlas_msdl(data_dir=atlas_dir)
