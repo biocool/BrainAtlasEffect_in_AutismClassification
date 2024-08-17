@@ -23,17 +23,19 @@ if __name__ == '__main__':
     fmri_path = "dat/Outputs/cpac/filt_global/func_preproc/*.gz"
     atlas_dir = "Atlas/"
 
-    out_dir = "Atlas_Extractor/NilearnNew/"
+    out_dir = "Atlas_Extractor_test/NilearnNew_test/"
 
     os.makedirs(out_dir, exist_ok=True)
 
     # Load atlases directly from local files
     craddock = nibabel.load(os.path.join(atlas_dir, 'craddock_2012/scorr05_mean_all.nii.gz'))
     smith_bm70 = nibabel.load(os.path.join(atlas_dir, 'smith_2009/bm70.nii.gz'))
-    smith_rsn70 = nibabel.load(os.path.join(atlas_dir, 'smith_2009/rsn70.nii.gz'))
+    # smith_rsn70 = nibabel.load(os.path.join(atlas_dir, 'smith_2009/rsn70.nii.gz'))
     msdl = nibabel.load(os.path.join(atlas_dir, 'msdl_atlas/MSDL_rois/msdl_rois.nii'))
-    hard = nibabel.load(os.path.join(atlas_dir, 'fsl/data/atlases/HarvardOxford/HarvardOxford-sub-prob-1mm.nii.gz'))
-    difumo = nibabel.load(os.path.join(atlas_dir, 'difumo_atlases/512/3mm/maps.nii.gz'))
+    hoa21 = nibabel.load(os.path.join(atlas_dir, 'fsl/data/atlases/HarvardOxford/HarvardOxford-sub-prob-1mm.nii.gz'))
+    difumo_128 = nibabel.load(os.path.join(atlas_dir, 'difumo_atlases/128/3mm/maps.nii.gz'))
+    difumo_256 = nibabel.load(os.path.join(atlas_dir, 'difumo_atlases/256/3mm/maps.nii.gz'))
+    difumo_512 = nibabel.load(os.path.join(atlas_dir, 'difumo_atlases/512/3mm/maps.nii.gz'))
 
     # craddock = datasets.fetch_atlas_craddock_2012(atlas_dir)
     # smith = datasets.fetch_atlas_smith_2009(atlas_dir)
@@ -56,13 +58,18 @@ if __name__ == '__main__':
     # Create the NiftiMapsMasker objects
     craddockmasker = NiftiMapsMasker(maps_img=craddock, standardize=True, memory='nilearn_cache', verbose=0)
     smithmasker70 = NiftiMapsMasker(maps_img=smith_bm70, standardize=True, memory='nilearn_cache', verbose=0)
-    smithmaskerr70 = NiftiMapsMasker(maps_img=smith_rsn70, standardize=True, memory='nilearn_cache', verbose=0)
-    hardmasker = NiftiMapsMasker(maps_img=hard, standardize=True, memory='nilearn_cache', verbose=0)
-    difumomasker = NiftiMapsMasker(maps_img=difumo, standardize=True, memory='nilearn_cache', memory_level=1, verbose=0)
+    # smithmaskerr70 = NiftiMapsMasker(maps_img=smith_rsn70, standardize=True, memory='nilearn_cache', verbose=0)
+    hardmasker = NiftiMapsMasker(maps_img=hoa21, standardize=True, memory='nilearn_cache', verbose=0)
+    difumomasker_128 = NiftiMapsMasker(maps_img=difumo_128, standardize=True, memory='nilearn_cache', memory_level=1,
+                                       verbose=0)
+    difumomasker_256 = NiftiMapsMasker(maps_img=difumo_256, standardize=True, memory='nilearn_cache', memory_level=1,
+                                       verbose=0)
+    difumomasker_512 = NiftiMapsMasker(maps_img=difumo_512, standardize=True, memory='nilearn_cache', memory_level=1,
+                                       verbose=0)
     msdlmasker = NiftiMapsMasker(maps_img=msdl, standardize=True, memory='nilearn_cache', verbose=0)
 
-    atlas_dict = {'difumo512': difumomasker, 'hard': hardmasker, 'rsmith70': smithmaskerr70, 'msdl': msdlmasker,
-                  'smith70': smithmasker70, 'craddock': craddockmasker}
+    atlas_dict = {'difumo128': difumomasker_128, 'difumo256': difumomasker_256, 'difumo512': difumomasker_512,
+                  'hard': hardmasker, 'msdl': msdlmasker, 'smith70': smithmasker70, 'craddock': craddockmasker}
 
     for atlas in atlas_dict.keys():
         for file in glob.glob(fmri_path):
