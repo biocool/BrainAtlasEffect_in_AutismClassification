@@ -16,7 +16,7 @@ def Save_To_File(filename,corrmatrix,out_dir):
 fmri_path = "data/ABIDE_pcp/newdata/*.gz"
 out_dir = "Atlas_Extractor/NilearnNew/"
 
-atlas_dir = "Atlas/"
+atlas_dir = "../Atlas/"
 
 craddock = datasets.fetch_atlas_craddock_2012(atlas_dir)
 smith = datasets.fetch_atlas_smith_2009(atlas_dir)
