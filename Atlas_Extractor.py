@@ -23,7 +23,7 @@ if __name__ == '__main__':
     fmri_path = "dat/Outputs/cpac/filt_global/func_preproc/*.gz"
     atlas_dir = "Atlas/"
 
-    out_dir = "Atlas_Extractor_test/NilearnNew_test/"
+    out_dir = "Atlas_Extractor/NilearnNew/"
 
     os.makedirs(out_dir, exist_ok=True)
 
