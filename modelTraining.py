@@ -171,7 +171,7 @@ def non_combat():
 
         final_performance_df = pd.concat([final_performance_df, nilearn_total_performance_df], ignore_index=True)
 
-    final_performance_df.to_csv('Non_combat.csv')
+    final_performance_df.to_csv('non_neuroCombat.csv')
 
 
 def with_combat():
