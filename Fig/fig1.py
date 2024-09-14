@@ -17,7 +17,7 @@ def categorize_age(age):
 
 if __name__ == '__main__':
     # Load data from the Excel file
-    df = pd.read_excel('../Labels.csv')  # Ensure the correct path to the file
+    df = pd.read_csv('../Labels.csv')  # Ensure the correct path to the file
     df = df.loc[(~ df['Age'].isna()) & (~ df['Sex'].isna())]
 
     # Categorize the ages
